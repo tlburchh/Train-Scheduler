@@ -41,6 +41,12 @@ trainDatabase.on("value", function(snapshot){
     $("#cDestination").text(snapshot.val().destination);
     $("#cFrequency").text(snapshot.val().frequency);
     $("#cArrival").text(snapshot.val().firstTrainTime);
+//creating list item for each snapshot
+        // function makeList() {
+        //     $("<li>").append(snapshot.val().trainName)
+        // }
+        // console.log(makeList);
+// makeList()
 }, function(errorObjects) {
     console.log("Errors handled: " + errorObject.code)
 });
