@@ -10,7 +10,7 @@ var config = {
 
     // Create a variable to reference the database
     var database = firebase.database();
-    var trainDatabase = database.ref(trainDatabase)
+    var trainDatabase = database.ref("trainDatabase")
 
     var trainName = "";
     var destination = "";
@@ -23,30 +23,38 @@ var config = {
         firstTrainTime = $("#firstTT").val().trim();
         frequency = $("#frequency").val().trim();
 
-        trainDatabase.set({
+        trainDatabase.push({
             trainName: trainName,
             destination: destination,
             firstTrainTime: firstTrainTime,
             frequency: frequency
         });
+        $("#train").val("")
+        $("#destination").val("")
+        $("#firstTT").val("")
+        $("#frequency").val("")
     });
-trainDatabase.on("value", function(snapshot){
-    console.log(snapshot.val());
-    console.log(snapshot.val().trainName);
-    console.log(snapshot.val().destination);
-    console.log(snapshot.val().firstTrainTime);
-    console.log(snapshot.val().frequency);
+// trainDatabase.on("value", function(snapshot){
+//     console.log(snapshot.val());
+//     console.log(snapshot.val().trainName);
+//     console.log(snapshot.val().destination);
+//     console.log(snapshot.val().firstTrainTime);
+//     console.log(snapshot.val().frequency);
 
-    $("#cTrain").text(snapshot.val().trainName);
-    $("#cDestination").text(snapshot.val().destination);
-    $("#cFrequency").text(snapshot.val().frequency);
-    $("#cArrival").text(snapshot.val().firstTrainTime);
-//creating list item for each snapshot
-        // function makeList() {
-        //     $("<li>").append(snapshot.val().trainName)
-        // }
-        // console.log(makeList);
-// makeList()
-}, function(errorObjects) {
-    console.log("Errors handled: " + errorObject.code)
+trainDatabase.on("child_added", function(childSnapshot){
+    $("tBody").append("<div class='well'><span class='train-name'> " + childSnapshot.val().trainName +
+    " </span><span class='train-destination'> " + childSnapshot.val().destination +
+      " </span><span class='first-train-time'> " + childSnapshot.val().firstTrainTime +
+        " </span><span class='train-frequency'> " + childSnapshot.val().frequency + " </span></div>");
+    
+    
+        // console.log("Error handled: " + errorObject.code);
+}),
+function (errorObjects) {
+    console.log("Errors handled: " + errorObject.code);
+
+}
+trainDatabase.orderByChild("dataAdded").limitToLast(1).on("child_added", function(snapshot) {
+
 });
+

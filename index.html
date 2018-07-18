@@ -15,9 +15,12 @@
         <div class = "row">
             <div class="col-md-1"></div>
             <div class="col-md-10">
+                <h1> Choo-Choo-Choose Your Train!</h1>
                 <div class = "card">
                     <div class="card-body">
-                            Train Schedule
+                        
+                        <img src="https://i.gifer.com/Skxm.gif">
+                       
                     </div>    
                 </div>
             </div>
@@ -27,7 +30,7 @@
             <div class="col-md-10">
                 <div class = "card">
                     <div class="card-body">
-                        <div class="row">
+                        <!-- <div class="row">
                             <div class="col-md-1"></div>
                             
                             <ul  class="list-group col-md-2">Train Name
@@ -49,7 +52,22 @@
                                 <li id="cMinutesAway" class="list-group-item"></li>
                             </ul>
                             <div class="col-md-1"></div>
-                        </div>
+                        </div> -->
+                        <table class="table">
+                            <thead class="thead-dark">
+                              <tr>
+                                <th scope="col">Train Name</th>
+                                <th scope="col">Destination</th>
+                                <th scope="col">Frequency</th>
+                                <th scope="col">Next Arrival</th>
+                                <th scope="col">Minutes Away</th>
+                            </tr>
+                            </thead>
+                            <tbody  id="tBody">
+                            
+                         
+                            </tbody>
+                          </table>
                     </div>    
                 </div>
             </div>
@@ -69,15 +87,15 @@
                             <div class="input-group-prepend"></div>                  
                             <input id="destination" type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
                         </div>
-                        First Train Time
-                        <div class="input-group mb-3">
-                            <div class="input-group-prepend"></div>                  
-                            <input id="firstTT" type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
-                        </div>
                         Frequency
                         <div class="input-group mb-3">
                             <div class="input-group-prepend"></div>                  
                             <input id="frequency" type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+                        </div>
+                        First Train Time
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend"></div>                  
+                            <input id="firstTT" type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
                         </div>
                     </div>   
                     <button id="add-train" class="btn btn-primary" type="submit">Submit form</button>
@@ -93,6 +111,8 @@
     <script src="https://www.gstatic.com/firebasejs/4.12.0/firebase.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/js/bootstrap.min.js" integrity="sha384-o+RDsa0aLu++PJvFqy8fFScvbHFLtbvScb8AjopnFD+iEQ7wo/CG0xlczd+2O/em" crossorigin="anonymous"></script>
+    <script src="https://www.gstatic.com/firebasejs/4.12.0/firebase.js"></script>
+
     <script src="assets/script.js"></script>
 </body>
 </html>
