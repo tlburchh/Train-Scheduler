@@ -16,6 +16,7 @@ var config = {
     var destination = "";
     var firstTrainTime = "";
     var frequency ="";
+    var minutes=0;
     $("#add-train").on("click", function(event){
         event.preventDefault();
         trainName = $("#train").val().trim();
@@ -42,18 +43,31 @@ var config = {
 //     console.log(snapshot.val().frequency);
 
 trainDatabase.on("child_added", function(childSnapshot){
-    $("tBody").append("<div class='well'><span class='train-name'> " + childSnapshot.val().trainName +
-    " </span><span class='train-destination'> " + childSnapshot.val().destination +
-      " </span><span class='first-train-time'> " + childSnapshot.val().firstTrainTime +
-        " </span><span class='train-frequency'> " + childSnapshot.val().frequency + " </span></div>");
+    $("tBody").append("<tr class='well'><td class='train-name'> " + childSnapshot.val().trainName +
+    " </td><td class='train-destination'> " + childSnapshot.val().destination +
+      " </td><td class='first-train-time'> " + childSnapshot.val().firstTrainTime +
+        " </td><td class='train-frequency'> " + childSnapshot.val().frequency + 
+        " </td><td class='train-minutes'> " +  childSnapshot.val().minutes + " </td></tr>");
+    // $("#tBody").append(createTrainRow(childSnapshot.val()));
     
     
-        // console.log("Error handled: " + errorObject.code);
+    // console.log("Error handled: " + errorObject.code);
 }),
-function (errorObjects) {
-    console.log("Errors handled: " + errorObject.code);
+    // function createTrainRow(schedule){
+    // const trow = $('<tr>');
+    //     trow.append(`<td>${schedule.trainName}</td>`)
+    //         .append(`<td>${schedule.destination}</td>`)
+    //         .append(`<td>${schedule.firstTrainTime}</td>`)
+    //         .append(`<td>${schedule.frequency}</td>`)
+    //         .append(`<td>${schedule.minutes}</td>`);
+    // return trow;
+    // }
 
-}
+
+// function (errorObjects) {
+//     console.log("Errors handled: " + errorObject.code);
+
+// }
 trainDatabase.orderByChild("dataAdded").limitToLast(1).on("child_added", function(snapshot) {
 
 });
