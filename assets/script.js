@@ -14,9 +14,10 @@ var config = {
 
     var trainName = "";
     var destination = "";
-    var firstTrainTime = "";
-    var frequency ="";
-    var minutes=0;
+    var firstTrainTime = "00:00";
+    var frequency = 0;
+    // var minutes="";
+
     $("#add-train").on("click", function(event){
         event.preventDefault();
         trainName = $("#train").val().trim();
@@ -46,29 +47,46 @@ trainDatabase.on("child_added", function(childSnapshot){
     $("tBody").append("<tr class='well'><td class='train-name'> " + childSnapshot.val().trainName +
     " </td><td class='train-destination'> " + childSnapshot.val().destination +
       " </td><td class='first-train-time'> " + childSnapshot.val().firstTrainTime +
-        " </td><td class='train-frequency'> " + childSnapshot.val().frequency + 
-        " </td><td class='train-minutes'> " +  childSnapshot.val().minutes + " </td></tr>");
-    // $("#tBody").append(createTrainRow(childSnapshot.val()));
-    
-    
-    // console.log("Error handled: " + errorObject.code);
-}),
-    // function createTrainRow(schedule){
-    // const trow = $('<tr>');
-    //     trow.append(`<td>${schedule.trainName}</td>`)
-    //         .append(`<td>${schedule.destination}</td>`)
-    //         .append(`<td>${schedule.firstTrainTime}</td>`)
-    //         .append(`<td>${schedule.frequency}</td>`)
-    //         .append(`<td>${schedule.minutes}</td>`);
-    // return trow;
-    // }
-
-
-// function (errorObjects) {
-//     console.log("Errors handled: " + errorObject.code);
-
-// }
-trainDatabase.orderByChild("dataAdded").limitToLast(1).on("child_added", function(snapshot) {
+      " </td><td class='train-frequency'> " + childSnapshot.val().frequency + 
+      " </td><td class='train-minutes'> " +  childSnapshot.val().tMinutesTillTrain + " </td></tr>");
+      
+    });
+        
+        // function (errorObjects) {
+            //     console.log("Errors handled: " + errorObject.code);
+            
+            // }
+            
+            var tFrequency = 3;
+            
+            // // Time is 3:30 AM
+            // var firstTime = "03:30";
+            
+            // First Time (pushed back 1 year to make sure it comes before current time)
+            var firstTimeConverted = moment(firstTrainTime, "HH:mm").subtract(1, "years");
+            console.log(firstTimeConverted);
+            
+            // Current Time
+            var currentTime = moment();
+            console.log("CURRENT TIME: " + moment(currentTime).format("hh:mm"));
+            
+            // Difference between the times
+            var diffTime = moment().diff(moment(firstTimeConverted), "minutes");
+            console.log("DIFFERENCE IN TIME: " + diffTime);
+            
+            // Time apart (remainder)
+            var tRemainder = diffTime % frequency;
+            console.log(tRemainder);
+            
+            // Minute Until Train
+            var tMinutesTillTrain = frequency - tRemainder;
+            console.log("MINUTES TILL TRAIN: " + tMinutesTillTrain);
+            
+            // Next Train
+            var nextTrain = moment().add(tMinutesTillTrain, "minutes");
+            console.log("ARRIVAL TIME: " + moment(nextTrain).format("hh:mm"));
+            
+            trainDatabase.orderByChild("dataAdded").limitToLast(1).on("child_added", function(snapshot) {
 
 });
 
