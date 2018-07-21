@@ -15,16 +15,48 @@ var config = {
     var trainName = "";
     var destination = "";
     var firstTrainTime = "00:00";
-    var frequency = 0;
+    var frequency = null;
     // var minutes="";
 
+    //setting variables for moment.js time manipulation
+
+        // var tFrequency = 3;
+    
+    // // Time is 3:30 AM
+    // var firstTime = "03:30";
+    
+    // First Time (pushed back 1 year to make sure it comes before current time)
+    var firstTimeConverted = moment(firstTrainTime, "HH:mm").subtract(1, "years");
+    console.log(firstTimeConverted);
+    
+    // Current Time
+    var currentTime = moment();
+    console.log("CURRENT TIME: " + moment(currentTime).format("hh:mm"));
+    
+    // Difference between the times
+    var diffTime = moment().diff(moment(firstTimeConverted), "minutes");
+    console.log("DIFFERENCE IN TIME: " + diffTime);
+    
+    // Time apart (remainder)
+    var tRemainder = diffTime % parseInt(frequency);
+    console.log(tRemainder);
+    
+    // Minute Until Train
+    var tMinutesTillTrain = frequency - tRemainder;
+    console.log("MINUTES TILL TRAIN: " + tMinutesTillTrain);
+    
+    // Next Train
+    var nextTrain = moment().add(tMinutesTillTrain, "minutes");
+    console.log("ARRIVAL TIME: " + moment(nextTrain).format("hh:mm"));
+    
+    //click function that adds trains to list and adds info to Firebase
     $("#add-train").on("click", function(event){
         event.preventDefault();
         trainName = $("#train").val().trim();
         destination = $("#destination").val().trim();
         firstTrainTime = $("#firstTT").val().trim();
         frequency = $("#frequency").val().trim();
-
+console.log(frequency);
         trainDatabase.push({
             trainName: trainName,
             destination: destination,
@@ -34,15 +66,10 @@ var config = {
         $("#train").val("")
         $("#destination").val("")
         $("#firstTT").val("")
-        $("#frequency").val("")
+        $("#frequency").val(null)
     });
-// trainDatabase.on("value", function(snapshot){
-//     console.log(snapshot.val());
-//     console.log(snapshot.val().trainName);
-//     console.log(snapshot.val().destination);
-//     console.log(snapshot.val().firstTrainTime);
-//     console.log(snapshot.val().frequency);
 
+//concatenates information into table
 trainDatabase.on("child_added", function(childSnapshot){
     $("tBody").append("<tr class='well'><td class='train-name'> " + childSnapshot.val().trainName +
     " </td><td class='train-destination'> " + childSnapshot.val().destination +
@@ -57,36 +84,9 @@ trainDatabase.on("child_added", function(childSnapshot){
             
             // }
             
-            var tFrequency = 3;
-            
-            // // Time is 3:30 AM
-            // var firstTime = "03:30";
-            
-            // First Time (pushed back 1 year to make sure it comes before current time)
-            var firstTimeConverted = moment(firstTrainTime, "HH:mm").subtract(1, "years");
-            console.log(firstTimeConverted);
-            
-            // Current Time
-            var currentTime = moment();
-            console.log("CURRENT TIME: " + moment(currentTime).format("hh:mm"));
-            
-            // Difference between the times
-            var diffTime = moment().diff(moment(firstTimeConverted), "minutes");
-            console.log("DIFFERENCE IN TIME: " + diffTime);
-            
-            // Time apart (remainder)
-            var tRemainder = diffTime % frequency;
-            console.log(tRemainder);
-            
-            // Minute Until Train
-            var tMinutesTillTrain = frequency - tRemainder;
-            console.log("MINUTES TILL TRAIN: " + tMinutesTillTrain);
-            
-            // Next Train
-            var nextTrain = moment().add(tMinutesTillTrain, "minutes");
-            console.log("ARRIVAL TIME: " + moment(nextTrain).format("hh:mm"));
-            
-            trainDatabase.orderByChild("dataAdded").limitToLast(1).on("child_added", function(snapshot) {
+
+//adds new listing to table
+trainDatabase.orderByChild("dataAdded").limitToLast(1).on("child_added", function(snapshot) {
 
 });
 
