@@ -10,12 +10,12 @@ var config = {
 
     // Create a variable to reference the database
     var database = firebase.database();
-    var trainDatabase = database.ref("trainDatabase")
+    var trainDatabase = database.ref("trainDatabase");
 
     var trainName = "";
     var destination = "";
     var firstTrainTime = "00:00";
-    var frequency = null;
+    var frequency = 0;
     // var minutes="";
 
     //setting variables for moment.js time manipulation
@@ -38,17 +38,8 @@ var config = {
     console.log("DIFFERENCE IN TIME: " + diffTime);
     
     // Time apart (remainder)
-    var tRemainder = diffTime % parseInt(frequency);
-    console.log(tRemainder);
-    
-    // Minute Until Train
-    var tMinutesTillTrain = frequency - tRemainder;
-    console.log("MINUTES TILL TRAIN: " + tMinutesTillTrain);
-    
-    // Next Train
-    var nextTrain = moment().add(tMinutesTillTrain, "minutes");
-    console.log("ARRIVAL TIME: " + moment(nextTrain).format("hh:mm"));
-    
+    console.log(typeof frequency);
+    console.log('freq ', frequency);
     //click function that adds trains to list and adds info to Firebase
     $("#add-train").on("click", function(event){
         event.preventDefault();
@@ -56,17 +47,30 @@ var config = {
         destination = $("#destination").val().trim();
         firstTrainTime = $("#firstTT").val().trim();
         frequency = $("#frequency").val().trim();
-console.log(frequency);
+        frequency = parseInt(frequency, 10);
+        // console.log(frequency);
+
+        var tRemainder = diffTime % frequency;
+        console.log(tRemainder);
+        // Minute Until Train
+        var tMinutesTillTrain = frequency - tRemainder;
+        console.log("MINUTES TILL TRAIN: " + tMinutesTillTrain);
+        
+        // Next Train
+        var nextTrain = moment().add(tMinutesTillTrain, "minutes");
+        console.log("ARRIVAL TIME: " + moment(nextTrain).format("hh:mm"));
+        
         trainDatabase.push({
             trainName: trainName,
             destination: destination,
             firstTrainTime: firstTrainTime,
-            frequency: frequency
+            frequency: frequency,
+            tMinutesTillTrain: tMinutesTillTrain
         });
-        $("#train").val("")
-        $("#destination").val("")
-        $("#firstTT").val("")
-        $("#frequency").val(null)
+        $("#train").val("");
+        $("#destination").val("");
+        $("#firstTT").val("");
+        $("#frequency").val(null);
     });
 
 //concatenates information into table

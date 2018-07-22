@@ -1,6 +1,9 @@
 
 
 body {
-    background: aquamarine;
+    background: rgb(153, 28, 28);
    
+}
+img {
+    width: 100%;    
 }
