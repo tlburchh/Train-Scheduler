@@ -64,16 +64,13 @@ var config = {
             trainName: trainName,
             destination: destination,
             firstTrainTime: firstTrainTime,
-            nextTrain: nextTrain,
             frequency: frequency,
-            tMinutesTillTrain: tMinutesTillTrain,
+            tMinutesTillTrain: tMinutesTillTrain
         });
-            console.log("next train: " + nextTrain);
-
         $("#train").val("");
         $("#destination").val("");
         $("#firstTT").val("");
-        $("#frequency").val(0);
+        $("#frequency").val(null);
     });
 
 //concatenates information into table
@@ -81,7 +78,7 @@ trainDatabase.on("child_added", function(childSnapshot){
     $("tBody").append("<tr class='well'><td class='train-name'> " + childSnapshot.val().trainName +
     " </td><td class='train-destination'> " + childSnapshot.val().destination +
       " </td><td class='train-frequency'> " + childSnapshot.val().frequency +
-      " </td><td class='first-train-time'> " + childSnapshot.val().nextTrain + 
+      " </td><td class='first-train-time'> " + childSnapshot.val().firstTrainTime + 
       " </td><td class='train-minutes'> " +  childSnapshot.val().tMinutesTillTrain + " </td></tr>");
       
     });

@@ -39,8 +39,8 @@ var config = {
     console.log("DIFFERENCE IN TIME: " + diffTime);
 
     // Time apart (remainder)
-    console.log(typeof frequency)
-    console.log('freq ', frequency)
+    // console.log(typeof frequency)
+    // console.log('freq ', frequency)
 
 
     //click function that adds trains to list and adds info to Firebase
@@ -51,39 +51,41 @@ var config = {
         firstTrainTime = $("#firstTT").val().trim();
         frequency = $("#frequency").val().trim();
         frequency = parseInt(frequency, 10);
-        var nextTrain = moment().add(tMinutesTillTrain, "minutes");
-        nextTrainTime = $("nextTrain").val().trim();
+        // nextTrainTime = $("nextTrain").val().trim();
         var tRemainder = diffTime % frequency;
         console.log(tRemainder);
         // Minute Until Train
         var tMinutesTillTrain = frequency - tRemainder;
         console.log("MINUTES TILL TRAIN: " + tMinutesTillTrain);
-
         // Next Train
+        var nextTrain = moment().add(tMinutesTillTrain, "minutes");
         // return nextTrain;
         console.log("ARRIVAL TIME: " + moment(nextTrain).format("hh:mm"));
-
-
-
-console.log(frequency);
-console.log(typeof frequency)
+        
         trainDatabase.push({
             trainName: trainName,
             destination: destination,
             firstTrainTime: firstTrainTime,
             frequency: frequency,
             tMinutesTillTrain: tMinutesTillTrain,
-            nextTrainTime: nextTrainTime
+            // nextTrainTime: nextTrainTime
         });
+        // nextTrain.update({
+        //     nextTrain: nextTrain
+        // });
+
+console.log(nextTrain);
+// console.log(frequency);
+// console.log(typeof frequency)
         $("#train").val("")
         $("#destination").val("")
         $("#firstTT").val("")
-        $("#frequency").val(null)
+        $("#frequency").val(0)
         
         //concatenates information into table
     });
 trainDatabase.on("child_added", function(childSnapshot){
-  console.log('CHILD SNAPSHOT ', childSnapshot.val())
+  console.log('CHILD SNAPSHOT ', childSnapshot.val());
     $("tBody").append("<tr class='well'><td class='train-name'> " + childSnapshot.val().trainName +
     " </td><td class='train-destination'> " + childSnapshot.val().destination +
     " </td><td class='train-frequency'> " + childSnapshot.val().frequency +
