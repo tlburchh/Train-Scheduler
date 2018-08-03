@@ -16,15 +16,7 @@ var config = {
     var destination = "";
     var firstTrainTime = "00:00";
     var frequency = 0;
-    // var nextTrain = "00:00";
-    // var minutes="";
-
-    //setting variables for moment.js time manipulation
-
-        // var tFrequency = 3;
-
-    // // Time is 3:30 AM
-    // var firstTime = "03:30";
+   
 
     // First Time (pushed back 1 year to make sure it comes before current time)
     var firstTimeConverted = moment(firstTrainTime, "HH:mm").subtract(1, "years");
@@ -38,10 +30,7 @@ var config = {
     var diffTime = moment().diff(moment(firstTimeConverted), "minutes");
     console.log("DIFFERENCE IN TIME: " + diffTime);
 
-    // Time apart (remainder)
-    // console.log(typeof frequency)
-    // console.log('freq ', frequency)
-
+   
 
     //click function that adds trains to list and adds info to Firebase
     $("#add-train").on("click", function(event){
@@ -61,19 +50,20 @@ var config = {
         var nextTrain = moment().add(tMinutesTillTrain, "minutes");
         // return nextTrain;
         console.log("ARRIVAL TIME: " + moment(nextTrain).format("hh:mm"));
-        
+        var nextTrainTime = moment(nextTrain).format("hh:mm");
+        console.log(nextTrainTime);
+
+
         trainDatabase.push({
             trainName: trainName,
             destination: destination,
             firstTrainTime: firstTrainTime,
             frequency: frequency,
             tMinutesTillTrain: tMinutesTillTrain,
-            // nextTrainTime: nextTrainTime
+            nextTrainTime: nextTrainTime
+            
         });
-        // nextTrain.update({
-        //     nextTrain: nextTrain
-        // });
-
+       
 console.log(nextTrain);
 // console.log(frequency);
 // console.log(typeof frequency)
@@ -94,11 +84,7 @@ trainDatabase.on("child_added", function(childSnapshot){
 
     });
 
-        // function (errorObjects) {
-            //     console.log("Errors handled: " + errorObject.code);
-
-            // }
-
+    
 
 //adds new listing to table
 trainDatabase.orderByChild("dataAdded").limitToLast(1).on("child_added", function(snapshot) {
